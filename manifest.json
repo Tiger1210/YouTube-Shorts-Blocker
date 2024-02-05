@@ -1,9 +1,0 @@
-{
-    "manifest_version": 3,
-    "name": "YouTube Assistant",
-    "version": "1.0.0",
-    "description": "Let's make YouTube a bit more bearable on the browser",
-    "action":{
-        "default_popup": "./build/index.html"
-    }
-}

@@ -17,6 +17,27 @@ function UpdateLocalStorage(state) {
     localStorage.setItem("LastToggleState", state)
 }
 
+/**
+ * A function which sets up a MutationObserver to watch for changes in the YouTube UI
+ * @param {*} null 
+ */
+function SetUpObserver(){
+    const observer = new MutationObserver(() =>{
+        removeShorts()
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true });
+}
+
+
+// Grab the last state from the LocalStorage
+const lastToggleState = localStorage.getItem("LastToggleState")
+console.log(lastToggleState)
+// If the state is checked, remove the YouTube shorts
+if(lastToggleState === "checked"){
+    SetUpObserver()
+}
+
 chrome.runtime.onMessage.addListener(function (message){
     if(message.action === 'checked'){
         /*
@@ -24,20 +45,12 @@ chrome.runtime.onMessage.addListener(function (message){
         to monitor for any changes to the page. If the page is dynamically changed,
         the removeShorts() will be called.
         */
-        const observer = new MutationObserver(() =>{
-            removeShorts()
-            UpdateLocalStorage(message.action)
-        })
-
-        observer.observe(document.body, { childList: true, subtree: true });
+        SetUpObserver();
     } 
     else if(message.action == "unchecked"){
         location.reload()
     }
 
-    // TODO: Check if the localStorage is set to checked, in which case remove shorts by default.
-   
-
-
+    UpdateLocalStorage(message.action)
     
 })

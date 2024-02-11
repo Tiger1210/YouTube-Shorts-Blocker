@@ -8,8 +8,6 @@ console.log("The stored state is "+ lastToggleState)
 
 // Send the last known state to the content only if it is in the checked state
 if(lastToggleState === "checked"){
-    // Send a message to the content script to remove shorts
-    SendMessageToContentScript(lastToggleState)
     // Set the checked variable to true in order to reflect it in the UI
     toggle.checked = true
 }
